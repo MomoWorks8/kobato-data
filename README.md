@@ -1,6 +1,31 @@
 # kobato-data
 
-kobato_rag_data_merged.jsonl	本番用RAGデータ（LINE bot等から読み込む用）<br>
-kobato_rag_data_backup.jsonl	バックアップ（あってもよし、不要なら削除可）<br>
-kuruppo_timed_full.jsonl	くるっぽーお言葉集<br>
-README.md	プロジェクト説明（まだ仮？）
+| ファイル                           | 用途                          |
+| ------------------------------ | --------------------------- |
+| `kobato_rag_data_merged.jsonl` | 本番用RAGデータ（LINE bot等から読み込む用） |
+| `kuruppo_timed_full.jsonl`     | くるっぽーお言葉集                   |
+| `README.md`                    | プロジェクト説明（ここ）              |
+
+
+
+💡 「Google DriveとGetHubの両方に同じファイルを置く意味あるの？」 → あります！
+
+| ストレージ            | 目的                                                      |
+| ---------------- | ------------------------------------------------------- |
+| **Google Drive** | Colabとの連携・編集・実行に最適。**作業場所・保存場所として利用**                   |
+| **GitHub**       | 外部公開・共有・バージョン管理に最適。**LINE Botなど別ツールからのアクセス**や**配布用**に使う |
+
+| 利用シーン                                     | 使う場所 |
+| ----------------------------------------- | ---- |
+| Colabなどで実験・実行・編集したい → **Google Drive**    |      |
+| LINE bot や外部アプリからファイルを直接読みたい → **GitHub** |      |
+
+
+
+| ⭐️使い分け方     
+| 作業内容       | 使用場所                                |
+| ---------- | ----------------------------------- |
+| コーディング・テスト | Google Drive（Colab）                 |
+| LINE Bot連携 | GitHub（生URL読み込み）                    |
+| 配布・共有      | GitHub                              |
+| 自分の整理      | Readme\_for\_me.txt などでDriveに記録してOK |
