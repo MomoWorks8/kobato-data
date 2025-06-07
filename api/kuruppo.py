@@ -1,12 +1,12 @@
 import json
 import random
 from datetime import datetime
+from pathlib import Path
 
 def handler(request):
     try:
-        filepath = "api/kuruppo_timed_full.jsonl"
-
-        with open(filepath, "r", encoding="utf-8") as f:
+        filepath = Path(__file__).parent / "kuruppo_timed_full.jsonl"
+        with filepath.open("r", encoding="utf-8") as f:
             lines = f.readlines()
             kuruppo_data = [json.loads(line) for line in lines]
 
@@ -22,14 +22,15 @@ def handler(request):
         else:
             time_label = "midnight"
 
-        candidates = [k["text"] for k in kuruppo_data if k["time"] == time_label]
+        candidates = [d["text"] for d in kuruppo_data if d["time"] == time_label]
+        response_text = random.choice(candidates) if candidates else "ぽぽぽ〜、まだ準備中っぽ…"
         return {
             "statusCode": 200,
-            "body": random.choice(candidates) if candidates else "くるっぽー（該当メッセージなし）"
+            "body": response_text
         }
 
     except Exception as e:
         return {
             "statusCode": 500,
-            "body": f"くるっぽー（エラー発生）: {str(e)}"
+            "body": f"ぽぽぽ… エラーが出ちゃったっぽ💥 {str(e)}"
         }
