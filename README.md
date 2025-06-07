@@ -1,12 +1,16 @@
 # kobato-data
 
 📁 kobato-data/
-├── .gitignore  ← この名前でOK！
-├── kuruppo_timed_full.jsonl　　　| くるっぽーお言葉集
-├── api/
-│   └── kuruppo.py ← これを追加する予定
-| `kobato_rag_data_merged.jsonl` | 本番用RAGデータ（LINE bot等から読み込む用） 使ってない|
-└──  `README.md`                    | プロジェクト説明（ここ）              |
+
+| ストレージ            | 目的                                                      |
+| ---------------- | ------------------------------------------------------- |
+| gitignore   | この名前でオッケー                   |
+|api/　　　| フォルダかな？　　　　 |
+|kuruppo.py ← これを追加する予定　　| フォルダかな？　　　　 |
+|kobato_rag_data_merged.jsonl　　| 今使ってない　　　　 |
+|kuruppo_timed_full.jsonl　　　| くるっぽーお言葉集　今使ってない　　　　 |
+|README.md　　　| フォルダかなプロジェクト説明　（ここ）　　　　 |
+
 
 
 💡 「Google DriveとGetHubの両方に同じファイルを置く意味あるの？」 → あります！
