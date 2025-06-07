@@ -3,7 +3,7 @@ import random
 from datetime import datetime
 from pathlib import Path
 
-def handler(request):
+def kuruppo_handler(request):
     try:
         print("🟢 handler開始")
         
@@ -50,3 +50,6 @@ def handler(request):
             "statusCode": 500,
             "body": f"エラーが発生したぽぽ！: {str(e)}"
         }
+
+# 🛠️ ここがミソ！
+handler = kuruppo_handler
