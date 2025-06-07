@@ -3,7 +3,7 @@ import json
 import random
 
 def load_kuruppo_data():
-    filepath = Path(__file__).resolve().parent.parent / "kuruppo_timed_full.jsonl"
+    filepath = Path(__file__).resolve().parent / "kuruppo_timed_full.jsonl"
     print(f"📂 ファイルパス: {filepath}")  # パス確認用ログ
 
     messages = []
