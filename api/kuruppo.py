@@ -11,8 +11,7 @@ def handler(request):
             lines = f.readlines()
             kuruppo_data = [json.loads(line) for line in lines]
 
-        now = datetime.utcnow().hour + 9  # JSTに変換（UTC+9）
-
+        now = datetime.utcnow().hour + 9  # JST
         if 5 <= now < 10:
             time_label = "morning"
         elif 10 <= now < 17:
@@ -24,18 +23,17 @@ def handler(request):
         else:
             time_label = "midnight"
 
-        candidates = [d for d in kuruppo_data if d["time"] == time_label]
+        messages = [item["text"] for item in kuruppo_data if item["time"] == time_label]
 
-        if not candidates:
+        if not messages:
             return {
                 "statusCode": 200,
-                "body": json.dumps({"text": "くるっぽ〜…今は静かに羽を休める時間みたい🕊️"})
+                "body": json.dumps({"text": "くるっぽ〜、今は羽休めの時間かも🕊️"})
             }
 
-        selected = random.choice(candidates)
         return {
             "statusCode": 200,
-            "body": json.dumps({"text": selected["text"]})
+            "body": json.dumps({"text": random.choice(messages)})
         }
 
     except Exception as e:
