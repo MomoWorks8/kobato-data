@@ -17,9 +17,10 @@ def get_time_category(hour):
         return "midnight"
 
 def load_kuruppo_data():
-    filepath = Path(__file__).parent.parent / "kuruppo_timed_full.jsonl"
+   filepath = Path(__file__).resolve().parent.parent / "kuruppo_timed_full.jsonl"
     with filepath.open("r", encoding="utf-8") as f:
         return [json.loads(line) for line in f]
+        filepath = Path(__file__).resolve().parent.parent / "kuruppo_timed_full.jsonl"
 
 def handler(request):
     try:
