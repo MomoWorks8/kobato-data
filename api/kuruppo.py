@@ -1,30 +1,45 @@
-from pathlib import Path
 import json
 import random
+from datetime import datetime
+from pathlib import Path
 
-def load_kuruppo_data():
-    filepath = Path(__file__).resolve().parent / "kuruppo_timed_full.jsonl"
-    print(f"📂 ファイルパス: {filepath}")  # パス確認用ログ
-
-    messages = []
-    try:
-        with open(filepath, "r", encoding="utf-8") as f:
-            for line in f:
-                messages.append(json.loads(line))
-    except Exception as e:
-        print(f"❌ ファイル読み込みエラー: {e}")
-        return []
-
-    print(f"✅ 読み込んだメッセージ数: {len(messages)}")
-    return messages
-
-# データ読み込み（関数の外に定義して一度だけ読む）
-kuruppo_data = load_kuruppo_data()
-
-# メイン関数（Vercelが呼び出す）
 def handler(request):
-    if not kuruppo_data:
-        return {"message": "ぽぽぽ…データが見つからないっぽ！"}
+    try:
+        filepath = Path(__file__).resolve().parent / "kuruppo_timed_full.jsonl"
 
-    text = random.choice(kuruppo_data)["text"]
-    return {"message": text}
+        with filepath.open("r", encoding="utf-8") as f:
+            lines = f.readlines()
+            kuruppo_data = [json.loads(line) for line in lines]
+
+        now = datetime.utcnow().hour + 9  # JSTに変換（UTC+9）
+
+        if 5 <= now < 10:
+            time_label = "morning"
+        elif 10 <= now < 17:
+            time_label = "day"
+        elif 17 <= now < 20:
+            time_label = "evening"
+        elif 20 <= now < 24:
+            time_label = "night"
+        else:
+            time_label = "midnight"
+
+        candidates = [d for d in kuruppo_data if d["time"] == time_label]
+
+        if not candidates:
+            return {
+                "statusCode": 200,
+                "body": json.dumps({"text": "くるっぽ〜…今は静かに羽を休める時間みたい🕊️"})
+            }
+
+        selected = random.choice(candidates)
+        return {
+            "statusCode": 200,
+            "body": json.dumps({"text": selected["text"]})
+        }
+
+    except Exception as e:
+        return {
+            "statusCode": 500,
+            "body": json.dumps({"error": str(e)})
+        }
