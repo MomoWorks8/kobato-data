@@ -9,7 +9,7 @@
 |kuruppo.py 　　| 追加予定　　　　 |
 |kobato_rag_data_merged.jsonl　　| 今使ってない　　　　 |
 |kuruppo_timed_full.jsonl　　　| くるっぽーお言葉集　今使ってない　　　　 |
-|README.md　　　| フォルダかなプロジェクト説明　（ここ）　　　　 |
+|README.md　　　| プロジェクト説明　（ここ）　　　　 |
 
 
 
