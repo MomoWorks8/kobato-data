@@ -1,42 +1,30 @@
-
+from pathlib import Path
 import json
 import random
-from datetime import datetime
-from pathlib import Path
-
-def get_time_category(hour):
-    if 5 <= hour < 10:
-        return "morning"
-    elif 10 <= hour < 18:
-        return "day"
-    elif 18 <= hour < 21:
-        return "evening"
-    elif 21 <= hour < 24:
-        return "night"
-    else:
-        return "midnight"
 
 def load_kuruppo_data():
-   filepath = Path(__file__).resolve().parent.parent / "kuruppo_timed_full.jsonl"
-    with filepath.open("r", encoding="utf-8") as f:
-        return [json.loads(line) for line in f]
-        filepath = Path(__file__).resolve().parent.parent / "kuruppo_timed_full.jsonl"
+    filepath = Path(__file__).resolve().parent.parent / "kuruppo_timed_full.jsonl"
+    print(f"📂 ファイルパス: {filepath}")  # パス確認用ログ
 
-def handler(request):
+    messages = []
     try:
-        hour = datetime.utcnow().hour + 9  # JST変換
-        category = get_time_category(hour)
-        kuruppo_data = load_kuruppo_data()
-        filtered = [k for k in kuruppo_data if k["time"] == category]
-        message = random.choice(filtered)["text"] if filtered else "ぽぽぽ…今日は静かな日っぽ。"
-        return {
-            "statusCode": 200,
-            "headers": {"Content-Type": "application/json"},
-            "body": json.dumps({"message": message})
-        }
+        with open(filepath, "r", encoding="utf-8") as f:
+            for line in f:
+                messages.append(json.loads(line))
     except Exception as e:
-        return {
-            "statusCode": 500,
-            "body": json.dumps({"error": str(e)})
-        }
+        print(f"❌ ファイル読み込みエラー: {e}")
+        return []
 
+    print(f"✅ 読み込んだメッセージ数: {len(messages)}")
+    return messages
+
+# データ読み込み（関数の外に定義して一度だけ読む）
+kuruppo_data = load_kuruppo_data()
+
+# メイン関数（Vercelが呼び出す）
+def handler(request):
+    if not kuruppo_data:
+        return {"message": "ぽぽぽ…データが見つからないっぽ！"}
+
+    text = random.choice(kuruppo_data)["text"]
+    return {"message": text}
