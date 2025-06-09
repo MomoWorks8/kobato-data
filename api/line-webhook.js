@@ -1,51 +1,40 @@
-// /api/line-webhook.js
+// api/line-webhook.js
+const { middleware, Client } = require('@line/bot-sdk');
 
-const { Client, middleware } = require('@line/bot-sdk');
-const getRawBody = require('raw-body');
-
-const config = {
+const client = new Client({
   channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
   channelSecret: process.env.LINE_CHANNEL_SECRET,
-};
-
-const client = new Client(config);
+});
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
-    res.status(405).end(); // Method Not Allowed
-    return;
+    return res.status(405).send('Method Not Allowed');
   }
 
-  const rawBody = await getRawBody(req);
-  const signature = req.headers['x-line-signature'];
-
   try {
-    const events = middleware(config);
-    await events(req, res, async () => {
-      const body = JSON.parse(rawBody.toString());
+    await middleware({ channelSecret: process.env.LINE_CHANNEL_SECRET })(req, res, async () => {
+      const events = req.body.events;
 
-      for (const event of body.events) {
+      for (const event of events) {
         if (event.type === 'message' && event.message.type === 'text') {
-          const msg = event.message.text.toLowerCase();
-          if (msg.includes("くるっぽー")) {
-            const reply = await fetch("https://kobato-data.vercel.app/api/kuruppo").then(res => res.text());
-            await client.replyMessage(event.replyToken, {
-              type: 'text',
-              text: reply,
-            });
+          const msg = event.message.text;
+          if (msg.includes('くるっぽー')) {
+            const r = await fetch("https://kobato-data.vercel.app/api/kuruppo");
+            const text = await r.text();
+            await client.replyMessage(event.replyToken, { type: 'text', text });
           } else {
             await client.replyMessage(event.replyToken, {
               type: 'text',
-              text: "ぽぽぽ？ もう一回くるっぽーって言ってみてぽ🕊️",
+              text: 'ぽぽぽ？もう一回くるっぽーって言ってみてぽ🕊️',
             });
           }
         }
       }
 
-      res.status(200).send('OK');
+      return res.status(200).end();
     });
-  } catch (err) {
-    console.error("❌ LINE Webhook Error:", err);
-    res.status(500).send("Internal Server Error");
+  } catch (e) {
+    console.error("💥 LINE Webhookエラー:", e);
+    return res.status(500).send("Internal Server Error");
   }
 };
