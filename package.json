@@ -1,0 +1,9 @@
+{
+  "name": "kobato-line-api",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "dependencies": {
+    "@line/bot-sdk": "^7.5.1",
+    "node-fetch": "^2.6.7"
+  }
+}
