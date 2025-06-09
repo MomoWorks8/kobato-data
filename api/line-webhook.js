@@ -1,6 +1,7 @@
 // /api/line-webhook.js
 
-import { middleware, Client } from '@line/bot-sdk';
+const { Client, middleware } = require('@line/bot-sdk');
+const getRawBody = require('raw-body');
 
 const config = {
   channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
@@ -9,49 +10,42 @@ const config = {
 
 const client = new Client(config);
 
-// ★ 必須：Vercelのエッジ関数形式でエクスポート
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   if (req.method !== 'POST') {
-    return res.status(405).send('Method Not Allowed');
+    res.status(405).end(); // Method Not Allowed
+    return;
   }
+
+  const rawBody = await getRawBody(req);
+  const signature = req.headers['x-line-signature'];
 
   try {
-    const events = req.body.events;
+    const events = middleware(config);
+    await events(req, res, async () => {
+      const body = JSON.parse(rawBody.toString());
 
-    const results = await Promise.all(
-      events.map(async (event) => {
-        if (
-          event.type === 'message' &&
-          event.message.type === 'text' &&
-          event.message.text.toLowerCase().includes('くるっぽー')
-        ) {
-          // 🔁 ここで Vercel の /api/kuruppo を叩く
-          const response = await fetch('https://kobato-data.vercel.app/api/kuruppo');
-          const text = await response.text();
-
-          return client.replyMessage(event.replyToken, {
-            type: 'text',
-            text: text,
-          });
-        } else {
-          return client.replyMessage(event.replyToken, {
-            type: 'text',
-            text: 'ぽぽぽ？もう一度「くるっぽー」って言ってみてぽ🕊️',
-          });
+      for (const event of body.events) {
+        if (event.type === 'message' && event.message.type === 'text') {
+          const msg = event.message.text.toLowerCase();
+          if (msg.includes("くるっぽー")) {
+            const reply = await fetch("https://kobato-data.vercel.app/api/kuruppo").then(res => res.text());
+            await client.replyMessage(event.replyToken, {
+              type: 'text',
+              text: reply,
+            });
+          } else {
+            await client.replyMessage(event.replyToken, {
+              type: 'text',
+              text: "ぽぽぽ？ もう一回くるっぽーって言ってみてぽ🕊️",
+            });
+          }
         }
-      })
-    );
+      }
 
-    res.status(200).json({ status: 'success', results });
+      res.status(200).send('OK');
+    });
   } catch (err) {
-    console.error('❌ LINE webhook error:', err);
-    res.status(500).send('Internal Server Error');
+    console.error("❌ LINE Webhook Error:", err);
+    res.status(500).send("Internal Server Error");
   }
-}
-
-// ★ LINE SDKミドルウェア対応（オプション）
-export const config = {
-  api: {
-    bodyParser: false,
-  },
 };
