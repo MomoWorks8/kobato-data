@@ -5,10 +5,9 @@
 | ストレージ            | 目的                                                      |
 | ---------------- | ------------------------------------------------------- |
 |.gitignore   | この名前でオッケー                   |
-|api/　　　| フォルダかな？　　　　 |
-|kuruppo.py 　　| 追加予定　　　　 |
-|kobato_rag_data_merged.jsonl　　| 今使ってない　　　　 |
-|kuruppo_timed_full.jsonl　　　| くるっぽーお言葉集　今使ってない　　　　 |
+|api/　　　| フォルダ　　　　 |
+|kuruppo.js 　　| くるっぽー一言お言葉集　　　　 ||
+|index.html　　　| テスト用の簡易HTML　　　　 |
 |README.md　　　| プロジェクト説明　（ここ）　　　　 |
 
 
