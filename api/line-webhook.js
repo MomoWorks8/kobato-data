@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
           } else {
             await client.replyMessage(event.replyToken, {
               type: 'text',
-              text: 'ぽ？小鳩ちゃんとお話しするときは、GPTの「お話しする」ボタンを押してね🕊️',
+              text: 'ぽ？小鳩ちゃんとお話しするときは、メニューの「お話しする」ボタンを押してね。GPTに飛ぶよ。くるっくー✨🕊️',
             });
           }
         }
