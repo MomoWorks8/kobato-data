@@ -9,6 +9,7 @@
 | `index.html`               | 壁紙配布や表示確認用のシンプルなテストページ                 |
 | `README.md`                | プロジェクトの概要・使い方のメモ（このファイル）             |
 | `package.json`             | Vercelで使うNode依存ライブラリを定義（@line/bot-sdkなど）     |
+| `jump-gpt.html`             | LINEからGPTにブラウザ経由でリダイレクトする中間ページ　　|
 
 ### 📁 `api/` フォルダ（Vercel Functions）
 
