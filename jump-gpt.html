@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>小鳩ちゃんGPTへジャンプします🕊️</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小鳩ちゃんGPTへジャンプするぽぽ🕊️</title>
   <style>
     body {
       font-family: "Helvetica Neue", sans-serif;
@@ -12,42 +12,43 @@
       color: #333;
       text-align: center;
     }
-    .box {
-      max-width: 400px;
-      margin: auto;
-      background: #ffffff;
-      padding: 2em;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    a.button {
+      display: inline-block;
+      margin-top: 1.5em;
+      padding: 0.8em 1.2em;
+      background-color: #aef;
+      color: #000;
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 1.2em;
+    }
+    .hint {
+      margin-top: 2em;
+      font-size: 0.9em;
+      color: #666;
+    }
+    code {
+      background: #eee;
+      padding: 4px 8px;
+      display: inline-block;
+      margin-top: 0.5em;
+      font-size: 0.95em;
+      word-break: break-all;
     }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1>🕊️ 小鳩ちゃんGPTへようこそ</h1>
-    <p>このリンクは、<strong>LINEの中ではうまく動かないことがあります。</strong></p>
-    <p>🌱 SafariやChromeで開いてね。</p>
-    <p>10秒後に自動でジャンプするよ…</p>
-    <p>もしうまくいかないときは、このアドレスをブラウザの検索窓にコピペしてみてね！↓</p>
-    <p>https://chatgpt.com/g/g-684bc741717c81918b2bae41075bc7a4-mirakuruxiao-jiu-tiyan</p>
-  </div>
+  <h1>くるっく〜🌿 小鳩ちゃんGPTに行くには…</h1>
+  <p>LINEの中だとGPTがうまく開けないぽぽ🌀</p>
+  <p>下のボタンかURLを <strong>長押しして「外部ブラウザで開く」</strong> を選んでぽぽ！</p>
 
-  <script>
-    const ua = navigator.userAgent.toLowerCase();
-    const isLineBrowser = ua.includes("line") && !ua.includes("line-poker");
+  <a class="button" href="https://chat.openai.com/g/YOUR-GPT-ID-HERE" target="_blank">
+    🕊️ 小鳩ちゃんGPTを開く
+  </a>
 
-    // 🔁 あなたのGPTページURLに書き換えてね
-    const targetURL = "https://chatgpt.com/g/g-684bc741717c81918b2bae41075bc7a4-mirakuruxiao-jiu-tiyan";
-
-    if (!isLineBrowser) {
-      // 外部ブラウザならすぐジャンプ
-      window.location.href = targetURL;
-    } else {
-      // LINE内なら案内を出してから少し待ってジャンプ
-      setTimeout(() => {
-        window.location.href = targetURL;
-      }, 10000); // 10秒後にジャンプ
-    }
-  </script>
+  <p class="hint">
+    またはコピーして外部ブラウザで開いてね☕️：<br>
+    <code>https://chat.openai.com/g/YOUR-GPT-ID-HERE</code>
+  </p>
 </body>
 </html>
